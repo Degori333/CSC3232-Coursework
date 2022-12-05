@@ -37,6 +37,18 @@ public class CameraController : MonoBehaviour
 
     [SerializeField]
     private bool lockEdgeScrolling = false;
+    [SerializeField]
+    private bool lockOnDragMove = false;
+    [SerializeField]
+    private bool playerAnchored = false;
+    public bool PlayerAnchored
+    {
+        get
+        {
+            return playerAnchored;
+        }
+    }
+    public GameObject player;
 
     private void Start()
     {
@@ -48,8 +60,35 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        HandleKeyboardInput();
         HandleMouseInput();
         UpdateCameraPosition();
+    }
+
+    private void HandleKeyboardInput()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            LockCameraOnPlayer();
+        }
+    }
+
+    public void LockCameraOnPlayer()
+    {
+        if (!playerAnchored)
+        {
+            transform.SetParent(player.transform);
+            lockEdgeScrolling = true;
+            lockOnDragMove = true;
+            playerAnchored = true;
+        }
+        else
+        {
+            transform.SetParent(null);
+            lockEdgeScrolling = false;
+            lockOnDragMove = false;
+            playerAnchored = false;
+        }
     }
 
     private void HandleMouseInput()
@@ -81,41 +120,43 @@ public class CameraController : MonoBehaviour
         }
 
         // Move camera on mouse drag
-
-        if (Input.GetMouseButtonDown(0))
+        if (!lockOnDragMove)
         {
-            lockEdgeScrolling = true;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            Plane ground = new Plane(Vector3.up, Vector3.zero);
-
-            float rayLength;
-
-            if (ground.Raycast(ray, out rayLength))
+            if (Input.GetMouseButtonDown(0))
             {
-                mouseDragStartPos = ray.GetPoint(rayLength);
+                lockEdgeScrolling = true;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                Plane ground = new Plane(Vector3.up, Vector3.zero);
+
+                float rayLength;
+
+                if (ground.Raycast(ray, out rayLength))
+                {
+                    mouseDragStartPos = ray.GetPoint(rayLength);
+                }
             }
-        }
-        if (Input.GetMouseButton(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            Plane ground = new Plane(Vector3.up, Vector3.zero);
-
-            float rayLength;
-
-            if (ground.Raycast(ray, out rayLength))
+            if (Input.GetMouseButton(0))
             {
-                mouseDragCurrPos = ray.GetPoint(rayLength);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                newPosition = (transform.position + mouseDragStartPos - mouseDragCurrPos);
+                Plane ground = new Plane(Vector3.up, Vector3.zero);
+
+                float rayLength;
+
+                if (ground.Raycast(ray, out rayLength))
+                {
+                    mouseDragCurrPos = ray.GetPoint(rayLength);
+
+                    newPosition = (transform.position + mouseDragStartPos - mouseDragCurrPos);
+                }
             }
         }
 
         // Rotation
         if (Input.GetMouseButtonDown(2))
         {
-            lockEdgeScrolling = true;
+            if (!playerAnchored) lockEdgeScrolling = true;
             mouseRotateStartPos = Input.mousePosition;
         }
         if (Input.GetMouseButton(2))
@@ -132,7 +173,7 @@ public class CameraController : MonoBehaviour
         {
             if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(2))
             {
-                lockEdgeScrolling = false;
+                if (!playerAnchored) lockEdgeScrolling = false;
             }
         }
     }
@@ -140,6 +181,8 @@ public class CameraController : MonoBehaviour
     {
         newZoom.y = Mathf.Clamp(newZoom.y, minZoom, maxZoom);
         newZoom.z = Mathf.Clamp(newZoom.z, -maxZoom, -minZoom);
+
+        if (playerAnchored) newPosition = player.transform.position;
 
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * movementTime);

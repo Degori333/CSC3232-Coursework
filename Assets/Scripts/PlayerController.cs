@@ -1,15 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController : UnitFunctionality
 {
     private bool inRangeOfDest = true;
+    public GameObject pauseMenu;
+    public GameObject reloadTextObject;
+    private TextMeshProUGUI reloadText;
+    public GameObject healthBar;
+    private Slider healthSlider;
 
-    private void Awake()
+    override public float HealthPoints
     {
+        get
+        {
+            return base.HealthPoints;
+        }
+        set
+        {
+            base.HealthPoints = value;
+            healthSlider.value = HealthPoints;
+        }
+    }
+
+    override protected void Start()
+    {
+        base.Start();
         destination = GameObject.FindGameObjectWithTag("DestinationPoint").GetComponent<Transform>();
+        reloadText = reloadTextObject.GetComponent<TextMeshProUGUI>();
+        healthSlider = healthBar.GetComponent<Slider>();
+        healthSlider.maxValue = unitData.healthPoints;
+        healthSlider.value = healthSlider.maxValue;
+        if (pauseMenu != null)
+        {
+            pauseMenu.SetActive(false);
+        }
     }
 
     private void Update()
@@ -17,7 +45,15 @@ public class PlayerController : UnitFunctionality
         CheckInput();
         if (!inRangeOfDest)
         {
-            MoveUnit(destination);
+            MoveUnit(destination.position);
+        }
+        if (reloading)
+        {
+            reloadText.text = "<color=red>Reloading...</color>";
+        }
+        else
+        {
+            reloadText.text = "<color=green>Cannons Ready</color>";
         }
     }
 
@@ -45,17 +81,37 @@ public class PlayerController : UnitFunctionality
         if (Input.GetMouseButtonDown(1))
         {
             destination.position = GetMouseWorldPosition();
-            Debug.Log("Position: " + destination.position);
             inRangeOfDest = false;
         }
-    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("DestinationPoint"))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            inRangeOfDest = true;
-            Debug.Log("Reached the destination");
+            Shoot(cannonsLeftSide);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Shoot(cannonsRightSide);
+        }
+
+        if (pauseMenu == null)
+        {
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            if (GameManager.gameManager.gameState == GameManager.GameState.BattleShips)
+            {
+                if (GameManager.gameManager.timeState == GameManager.TimeState.Paused)
+                {
+                    GameManager.gameManager.ResumeGame();
+                }
+                else
+                {
+                    GameManager.gameManager.PauseGame();
+                }
+                GameManager.gameManager.ToggleActive(pauseMenu);
+            }
         }
     }
 }

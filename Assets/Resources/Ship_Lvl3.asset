@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c217c3c641e4b42bd93a360797d462, type: 3}
+  m_Name: Ship_Lvl3
+  m_EditorClassIdentifier: 
+  shipLvl: MAX
+  lvlUpCost: 0
+  moveSpeed: 10
+  maxUpgradeMS: 1
+  amountUpgradedMS: 2
+  upgradeCostMS: 50
+  healthPoints: 150
+  maxUpgradeHP: 1
+  amountUpgradedHP: 100
+  upgradeCostHP: 100
+  attackPower: 12
+  maxUpgradeAttack: 1
+  amountUpgradedAttack: 3
+  upgradeCostAttack: 100
+  reloadTime: 12
+  maxUpgradeReload: 1
+  amountUpgradedReload: -8
+  upgradeCostReload: 200
+  shotStrength: 100
+  maxUpgradeSS: 1
+  amountUpgradedSS: 25
+  upgradeCostStrength: 150
+  shotOffset: 0.25
+  worthCoins: 125
