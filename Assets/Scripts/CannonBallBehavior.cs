@@ -30,11 +30,12 @@ public class CannonBallBehavior : MonoBehaviour
 
         if (collision.transform.CompareTag("Water"))
         {
+            StopCoroutine(LifeTime());
             Destroy(gameObject);
         }
 
         // Check if the ship hit has a different tag from the one that shot it
-        else if (!parentShip.CompareTag(collision.transform.root.tag))
+        else if (!parentShip.CompareTag(collision.transform.root.tag) && !collision.transform.root.CompareTag("Whirlpool"))
         {
             Collider myCollider = collision.GetContact(0).otherCollider;
             // If the ship hit was Player's
@@ -54,7 +55,7 @@ public class CannonBallBehavior : MonoBehaviour
                 parentShipFunctionality.coinsPossessed += struckShipFunctionality.WorthCoins;
                 struckShipFunctionality.isDead = true;
             }
-
+            StopCoroutine(LifeTime());
             Destroy(gameObject);
         }
     }

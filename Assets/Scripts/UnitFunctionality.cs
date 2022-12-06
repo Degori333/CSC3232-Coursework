@@ -123,6 +123,7 @@ public abstract class UnitFunctionality : MonoBehaviour
     }
 
     [SerializeField] protected float shotOffset = 0.1f;
+    [SerializeField] protected float strengthOffset = 20f;
 
     [SerializeField] protected int worthCoins = 0;
     public int WorthCoins
@@ -192,7 +193,7 @@ public abstract class UnitFunctionality : MonoBehaviour
                 GameObject cannonBallShot = Instantiate(cannonBall, 
                                                         cannon.transform.GetChild(0).position + new Vector3(Random.Range(0, shotOffset),Random.Range(0, shotOffset),Random.Range(0, shotOffset)),
                                                         cannon.transform.rotation);
-                cannonBallShot.GetComponent<Rigidbody>().AddRelativeForce(Vector3.right * shotStrength, ForceMode.Impulse);
+                cannonBallShot.GetComponent<Rigidbody>().AddRelativeForce(Vector3.right * Random.Range(shotStrength - strengthOffset, shotStrength), ForceMode.Impulse);
                 cannonBallShot.GetComponent<CannonBallBehavior>().parentShip = gameObject;
             }
             reloading = true;

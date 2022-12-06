@@ -39,12 +39,16 @@ public class EnemyController : UnitFunctionality
     [SerializeField] private float encirclmentSpeed;
     [SerializeField] private float angle = 0;
 
+    private void Awake()
+    {
+        destPoint = new GameObject("Enemy Destination");
+    }
+
     // Start is called before the first frame update
     override protected void Start()
     {
         base.Start();
         player = GameObject.Find("Player");
-        destPoint = new GameObject("Enemy Destination");
         playerController = player.GetComponent<PlayerController>();
         name = "Enemy";
         tag = "Enemy";
@@ -73,6 +77,11 @@ public class EnemyController : UnitFunctionality
             }
         }
 
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(destPoint);
     }
 
     float CheckDistance()

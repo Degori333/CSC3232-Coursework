@@ -48,4 +48,5 @@ public class UnitData : ScriptableObject
     [Header("Other")]
     public float shotOffset;
     public int worthCoins;
+    public float strengthOffset;
 }

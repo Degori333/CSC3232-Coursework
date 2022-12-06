@@ -18,13 +18,13 @@ MonoBehaviour:
   maxUpgradeMS: 1
   amountUpgradedMS: 2
   upgradeCostMS: 50
-  healthPoints: 150
+  healthPoints: 200
   maxUpgradeHP: 1
   amountUpgradedHP: 100
   upgradeCostHP: 100
-  attackPower: 12
+  attackPower: 15
   maxUpgradeAttack: 1
-  amountUpgradedAttack: 3
+  amountUpgradedAttack: 5
   upgradeCostAttack: 100
   reloadTime: 12
   maxUpgradeReload: 1
@@ -36,3 +36,4 @@ MonoBehaviour:
   upgradeCostStrength: 150
   shotOffset: 0.25
   worthCoins: 125
+  strengthOffset: 50

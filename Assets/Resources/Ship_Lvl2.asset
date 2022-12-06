@@ -36,3 +36,4 @@ MonoBehaviour:
   upgradeCostStrength: 15
   shotOffset: 0.15
   worthCoins: 25
+  strengthOffset: 30
