@@ -134,7 +134,56 @@ public abstract class UnitFunctionality : MonoBehaviour
         }
     }
 
-    public int coinsPossessed = 0;
+    [SerializeField] protected int coinsPossessed = 0;
+    virtual public int CoinsPossessed
+    {
+        get
+        {
+            return coinsPossessed;
+        }
+        set
+        {
+            if (value <= 0)
+            {
+                coinsPossessed = 0;
+            }
+            else
+            {
+                coinsPossessed = value;
+            }
+        }
+    }
+
+    [SerializeField] protected int maxCargo;
+    public int MaxCargo
+    {
+        get
+        {
+            return maxCargo;
+        }
+    }
+    [SerializeField] protected int currCargo = 0;
+    virtual public int CurrCargo
+    {
+        get
+        {
+            return currCargo;
+        }
+        set
+        {
+            if (value >= maxCargo)
+            {
+                currCargo = maxCargo;
+            }
+            else if (value <= 0)
+            {
+                currCargo = 0;
+            }
+            else currCargo = value;
+        }
+    }
+
+    public Market visitingMarket;
 
     virtual protected void Start()
     {
@@ -160,6 +209,7 @@ public abstract class UnitFunctionality : MonoBehaviour
         shotStrength = unitData.shotStrength;
         shotOffset = unitData.shotOffset;
         worthCoins = unitData.worthCoins;
+        maxCargo = unitData.maxCargo;
 
         rb = GetComponent<Rigidbody>();
     }

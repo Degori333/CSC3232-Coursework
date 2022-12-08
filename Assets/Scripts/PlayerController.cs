@@ -12,6 +12,8 @@ public class PlayerController : UnitFunctionality
     private TextMeshProUGUI reloadText;
     public GameObject healthBar;
     private Slider healthSlider;
+    [SerializeField] TextMeshProUGUI cargoText;
+    [SerializeField] TextMeshProUGUI coinsText;
 
     override public float HealthPoints
     {
@@ -22,7 +24,39 @@ public class PlayerController : UnitFunctionality
         set
         {
             base.HealthPoints = value;
-            healthSlider.value = HealthPoints;
+            if(healthSlider != null) healthSlider.value = value;
+        }
+    }
+    override public int CurrCargo 
+    {
+        get
+        {
+            return base.CurrCargo;
+        }
+        set 
+        {
+            base.CurrCargo = value;
+            if (cargoText != null)
+            {
+                cargoText.text = "Cargo: " + CurrCargo + "/" + MaxCargo;
+            }
+            
+        }
+    }
+
+    override public int CoinsPossessed
+    {
+        get 
+        {
+            return base.CoinsPossessed; 
+        }
+        set
+        { 
+            base.CoinsPossessed = value;
+            if (coinsText != null)
+            {
+                coinsText.text = "Coins: " + CoinsPossessed;
+            }
         }
     }
 
@@ -30,10 +64,18 @@ public class PlayerController : UnitFunctionality
     {
         base.Start();
         destination = GameObject.FindGameObjectWithTag("DestinationPoint").GetComponent<Transform>();
-        reloadText = reloadTextObject.GetComponent<TextMeshProUGUI>();
-        healthSlider = healthBar.GetComponent<Slider>();
-        healthSlider.maxValue = unitData.healthPoints;
-        healthSlider.value = healthSlider.maxValue;
+        if(reloadTextObject != null)
+        {
+            reloadText = reloadTextObject.GetComponent<TextMeshProUGUI>();
+        }
+        if(healthBar != null)
+        {
+            healthSlider = healthBar.GetComponent<Slider>();
+            healthSlider.maxValue = unitData.healthPoints;
+            healthSlider.value = healthSlider.maxValue;
+        }
+        CoinsPossessed = 1000;
+        CurrCargo = 0;
         if (pauseMenu != null)
         {
             pauseMenu.SetActive(false);
@@ -49,13 +91,20 @@ public class PlayerController : UnitFunctionality
         {
             MoveUnit(destination.position);
         }
-        if (reloading)
+        else if(agent.isStopped)
         {
-            reloadText.text = "<color=red>Reloading...</color>";
+            agent.ResetPath();
         }
-        else
+        if (reloadText != null)
         {
-            reloadText.text = "<color=green>Cannons Ready</color>";
+            if (reloading)
+            {
+                reloadText.text = "<color=red>Reloading...</color>";
+            }
+            else
+            {
+                reloadText.text = "<color=green>Cannons Ready</color>";
+            }
         }
     }
 
@@ -85,14 +134,16 @@ public class PlayerController : UnitFunctionality
             destination.position = GetMouseWorldPosition();
             inRangeOfDest = false;
         }
-
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (GameManager.gameManager.gameState == GameManager.GameState.BattleShips)
         {
-            Shoot(cannonsLeftSide);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Shoot(cannonsRightSide);
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                Shoot(cannonsLeftSide);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Shoot(cannonsRightSide);
+            }
         }
 
         if (pauseMenu == null)
@@ -102,7 +153,7 @@ public class PlayerController : UnitFunctionality
         if (Input.GetKeyDown(KeyCode.Escape))
         {
 
-            if (GameManager.gameManager.gameState == GameManager.GameState.BattleShips)
+            if (GameManager.gameManager.gameState == GameManager.GameState.BattleShips || GameManager.gameManager.gameState == GameManager.GameState.TradingSim)
             {
                 if (GameManager.gameManager.timeState == GameManager.TimeState.Paused)
                 {
@@ -114,6 +165,13 @@ public class PlayerController : UnitFunctionality
                 }
                 GameManager.gameManager.ToggleActive(pauseMenu);
             }
+        }
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("DestinationPoint") && !inRangeOfDest)
+        {
+            inRangeOfDest = true;
         }
     }
 }

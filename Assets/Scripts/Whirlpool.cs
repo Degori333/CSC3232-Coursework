@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Whirlpool : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Whirlpool : MonoBehaviour
     [SerializeField] private float lifeTime;
     private float timer = 0;
     [SerializeField] private float tick = 0.5f;
+
 
     void Start()
     {

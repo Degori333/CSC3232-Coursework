@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
 
     public void SwitchScene(int sceneIndex)
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(sceneIndex);
     }
 

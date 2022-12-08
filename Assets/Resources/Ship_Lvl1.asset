@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Ship_Lvl1
   m_EditorClassIdentifier: 
   shipLvl: 1
-  lvlUpCost: 100
-  moveSpeed: 6
+  lvlUpCost: 150
+  moveSpeed: 9
   maxUpgradeMS: 10
   amountUpgradedMS: 0.1
   upgradeCostMS: 5
@@ -31,9 +31,10 @@ MonoBehaviour:
   amountUpgradedReload: -0.25
   upgradeCostReload: 5
   shotStrength: 50
-  maxUpgradeSS: 3
-  amountUpgradedSS: 5
+  maxUpgradeSS: 5
+  amountUpgradedSS: 1
   upgradeCostStrength: 5
   shotOffset: 0.1
-  worthCoins: 5
+  worthCoins: 50
   strengthOffset: 15
+  maxCargo: 50

@@ -49,4 +49,5 @@ public class UnitData : ScriptableObject
     public float shotOffset;
     public int worthCoins;
     public float strengthOffset;
+    public int maxCargo;
 }

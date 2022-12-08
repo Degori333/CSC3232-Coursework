@@ -115,6 +115,7 @@ public class EnemyController : UnitFunctionality
         if (isDead || playerController.isDead)
         {
             currState = State.Idle;
+            agent.ResetPath();
         }
         else
         {

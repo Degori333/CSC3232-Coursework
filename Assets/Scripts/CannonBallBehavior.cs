@@ -9,14 +9,27 @@ public class CannonBallBehavior : MonoBehaviour
 
     private UnitFunctionality parentShipFunctionality;
     private UnitFunctionality struckShipFunctionality;
+    private Rigidbody mass;
+    private float timer = 0;
+    private float tick = 0.2f;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        mass = GetComponent<Rigidbody>();
         parentShipFunctionality = parentShip.GetComponent<UnitFunctionality>();
         
         StartCoroutine(LifeTime());
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
+        if(timer > tick)
+        {
+            timer -= tick;
+            mass.mass += 0.1f;
+        }
     }
 
     IEnumerator LifeTime()
@@ -52,7 +65,7 @@ public class CannonBallBehavior : MonoBehaviour
 
             if(struckShipFunctionality.HealthPoints == 0 && !struckShipFunctionality.isDead)
             {
-                parentShipFunctionality.coinsPossessed += struckShipFunctionality.WorthCoins;
+                parentShipFunctionality.CoinsPossessed += struckShipFunctionality.WorthCoins;
                 struckShipFunctionality.isDead = true;
             }
             StopCoroutine(LifeTime());

@@ -10,6 +10,8 @@ public class SpawnManager : MonoBehaviour
     public GameObject shipLvl3Prefab;
     public GameObject shop;
 
+    public PlayerController player;
+
     public float horizontalSpawnDistnace = 50f;
     public float verticalSpawnDistnace = 50f;
 
@@ -51,12 +53,15 @@ public class SpawnManager : MonoBehaviour
         {
             if (value == 0 && !shopOpen)
             {
-                enemies.Clear();
+                CleanUp();
                 OpenShop();
             }
             else enemiesAlive = value;
         }
     }
+
+    private List<EnemyController> toDestroy = new();
+
 
     private void Start()
     {
@@ -75,10 +80,29 @@ public class SpawnManager : MonoBehaviour
             }
             else
             {
-                Destroy(enemy.gameObject);
+                if(!toDestroy.Contains(enemy))
+                toDestroy.Add(enemy);
             }
         }
         EnemiesAlive = alive;
+    }
+
+    void CleanUp()
+    {
+        foreach (EnemyController enemy in toDestroy)
+        {
+            if (enemies.Contains(enemy))
+            {
+                enemies.Remove(enemy);
+                StartCoroutine(SelfDestruct(enemy.gameObject));
+            }
+        }
+        toDestroy.Clear();
+    }
+    IEnumerator SelfDestruct(GameObject enemy)
+    {
+        yield return new WaitForSeconds(0.5f);
+        Destroy(enemy);
     }
 
     public void OpenShop()
@@ -91,6 +115,7 @@ public class SpawnManager : MonoBehaviour
 
     public void StartWave()
     {
+        player.HealthPoints = player.unitData.healthPoints;
         shopOpen = false;
         for (enemiesLeftToSpawn = enemiesPerWave; enemiesLeftToSpawn > 0; enemiesLeftToSpawn--)
         {
@@ -101,7 +126,7 @@ public class SpawnManager : MonoBehaviour
 
     GameObject ChooseRandomShip()
     {
-        if (Random.value < 0.8f)
+        if (Random.value < 0.85f)
         {
             return shipLvl1Prefab;
         }

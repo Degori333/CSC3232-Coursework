@@ -1651,7 +1651,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.8333333
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: bbbd08eb2e2fb1742b70a92b4aec49a4, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4b95e020a4014f84299ee29947ceccaf, type: 2}
   m_BuildHeightMesh: 0
 --- !u!64 &522684693
 MeshCollider:
@@ -5213,6 +5213,7 @@ MonoBehaviour:
   shipLvl2Prefab: {fileID: 3250159768582768737, guid: 223bd0baf2c0b2b42a2d091ecbf31c4d, type: 3}
   shipLvl3Prefab: {fileID: 8851184703542638094, guid: b49efdae997cbe0499d22de2078639b9, type: 3}
   shop: {fileID: 1084525679}
+  player: {fileID: 2246740566747517613}
   horizontalSpawnDistnace: 50
   verticalSpawnDistnace: 50
   offset: 0
@@ -6253,7 +6254,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933388305}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.4621787, y: 0, z: 2.4530334}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7167,9 +7168,14 @@ MonoBehaviour:
   strengthOffset: 20
   worthCoins: 0
   coinsPossessed: 1000
+  maxCargo: 0
+  currCargo: 0
+  visitingMarket: {fileID: 0}
   pauseMenu: {fileID: 1607724614}
   reloadTextObject: {fileID: 220341841}
   healthBar: {fileID: 1993951712}
+  cargoText: {fileID: 0}
+  coinsText: {fileID: 0}
 --- !u!33 &2248512780804520719
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -7911,6 +7917,7 @@ GameObject:
   - component: {fileID: 6756502178162093600}
   - component: {fileID: 2246740566747517613}
   - component: {fileID: 2760844848676948704}
+  - component: {fileID: 6756502178162093601}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -8019,6 +8026,22 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!114 &6756502178162093601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6211009239563951925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_IgnoreFromBuild: 1
+  m_AffectedAgents: ffffffff
 --- !u!23 &6786470082244773259
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ GameObject:
   m_Name: Whirlpool
   m_TagString: Whirlpool
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 3
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &332619934309876823
@@ -113,7 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   affectedObjects: []
   lifeTime: 15
-  tick: 1
+  tick: 1.5
 --- !u!54 &86514566
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -65,13 +65,13 @@ public class Shop : MonoBehaviour
 
     bool CanAfford(int cost)
     {
-        if(player.coinsPossessed < cost)
+        if(player.CoinsPossessed < cost)
         {
             return false;
         }
         else
         {
-            player.coinsPossessed -= cost;
+            player.CoinsPossessed -= cost;
             return true;
         }
     }
@@ -99,7 +99,7 @@ public class Shop : MonoBehaviour
 
     void UpdateCoins()
     {
-        UpdateStatText(GetTextComponent(coinsText), "Coins: ", player.coinsPossessed);
+        UpdateStatText(GetTextComponent(coinsText), "Coins: ", player.CoinsPossessed);
     }
 
     void UpdateAllTextBoxes()
@@ -289,7 +289,7 @@ public class Shop : MonoBehaviour
         player.Restart();
         player.gameObject.name = "Player";
         player.gameObject.tag = "Player";
-        player.coinsPossessed = currControllerDataTransfer.coinsPossessed;
+        player.CoinsPossessed = currControllerDataTransfer.CoinsPossessed;
     }
 
     void UpdateLvlText()

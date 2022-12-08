@@ -62,6 +62,7 @@ public class CameraController : MonoBehaviour
     {
         HandleKeyboardInput();
         HandleMouseInput();
+        if (playerAnchored) newPosition = player.transform.position;
         UpdateCameraPosition();
     }
 
@@ -77,14 +78,12 @@ public class CameraController : MonoBehaviour
     {
         if (!playerAnchored)
         {
-            transform.SetParent(player.transform);
             lockEdgeScrolling = true;
             lockOnDragMove = true;
             playerAnchored = true;
         }
         else
         {
-            transform.SetParent(null);
             lockEdgeScrolling = false;
             lockOnDragMove = false;
             playerAnchored = false;
